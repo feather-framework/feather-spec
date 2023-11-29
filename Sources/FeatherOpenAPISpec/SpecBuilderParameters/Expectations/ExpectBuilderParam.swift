@@ -10,7 +10,7 @@ import HTTPTypes
 import XCTest
 
 public struct Expect: SpecBuilderParameter {
-    var expectation: Expectation
+    let expectation: Expectation
 
     public init(
         file: StaticString = #file,
