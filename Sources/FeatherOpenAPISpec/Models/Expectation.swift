@@ -9,13 +9,13 @@ import HTTPTypes
 import OpenAPIRuntime
 import XCTest
 
-struct Expectation {
+public struct Expectation {
 
-    let file: StaticString
-    let line: UInt
-    let block: ((HTTPResponse, HTTPBody) async throws -> Void)
+    public let file: StaticString
+    public let line: UInt
+    public let block: ((HTTPResponse, HTTPBody) async throws -> Void)
 
-    init(
+    public init(
         file: StaticString,
         line: UInt,
         block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
@@ -26,7 +26,7 @@ struct Expectation {
     }
 }
 
-extension Expectation {
+public extension Expectation {
 
     static func status(
         file: StaticString = #file,

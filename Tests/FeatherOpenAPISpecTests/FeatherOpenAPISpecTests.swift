@@ -19,6 +19,31 @@ struct Todo: Codable {
     let title: String
 }
 
+public struct Custom: SpecBuilderParameter {
+    var expectation: Expectation
+
+    public init(
+        file: StaticString = #file,
+        line: UInt = #line,
+        block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
+    ) {
+        self.expectation = .init(
+            file: file,
+            line: line,
+            block: block
+        )
+    }
+
+    public func build(_ spec: inout Spec) {
+        spec.addExpectation(
+            file: expectation.file,
+            line: expectation.line,
+            expectation.block
+        )
+    }
+}
+
+
 final class FeatherOpenAPISpecTests: XCTestCase {
 
     func test(using runner: SpecRunner) async throws {
@@ -35,6 +60,9 @@ final class FeatherOpenAPISpecTests: XCTestCase {
             }
             Expect { response, body in
 
+            }
+            Custom { _, _ in
+                
             }
         }
         .build(using: runner)
