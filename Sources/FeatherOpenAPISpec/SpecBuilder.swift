@@ -1,3 +1,10 @@
+//
+//  SpecBuilder.swift
+//  FeatherOpenAPISpec
+//
+//  Created by Tibor Bödecs on 23/11/2023.
+//
+
 @resultBuilder
 public struct SpecBuilder {
 

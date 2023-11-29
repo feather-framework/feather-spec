@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "FeatherOpenAPISpec", targets: ["FeatherOpenAPISpec"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0-alpha.1"),
         
     ],
     targets: [

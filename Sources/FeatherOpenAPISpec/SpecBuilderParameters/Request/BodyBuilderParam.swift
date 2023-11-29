@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  BodyBuilderParam.swift
+//  FeatherOpenAPISpec
 //
-//
-//  Created by Tibor Bodecs on 23/11/2023.
+//  Created by Tibor Bödecs on 23/11/2023.
 //
 
 import OpenAPIRuntime

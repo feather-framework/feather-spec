@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  CombinedBuilderParam.swift
+//  FeatherOpenAPISpec
 //
-//
-//  Created by Tibor Bodecs on 23/11/2023.
+//  Created by Tibor Bödecs on 23/11/2023.
 //
 
 struct Combined: SpecBuilderParameter {
