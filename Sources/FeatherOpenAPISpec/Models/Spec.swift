@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  Spec.swift
+//  FeatherOpenAPISpec
 //
-//
-//  Created by Tibor Bodecs on 23/11/2023.
+//  Created by Tibor Bödecs on 23/11/2023.
 //
 
 import XCTest
@@ -13,7 +13,7 @@ public struct Spec {
 
     public private(set) var request: HTTPRequest
     public private(set) var body: HTTPBody
-    private var expectations: [_Expectation]
+    private var expectations: [Expectation]
     private var executor: SpecRunner
 
     public init(runner: SpecRunner) {
@@ -53,27 +53,6 @@ public struct Spec {
     ) {
         expectations.append(.init(file: file, line: line, block: block))
 
-    }
-
-    public mutating func addExpectation(
-        file: StaticString = #file,
-        line: UInt = #line,
-        _ status: HTTPResponse.Status
-    ) {
-        expectations.append(
-            .init(
-                file: file,
-                line: line,
-                block: { response, body in
-                    XCTAssertEqual(
-                        response.status,
-                        status,
-                        file: file,
-                        line: line
-                    )
-                }
-            )
-        )
     }
 
     // MARK: - modifier helper
@@ -144,18 +123,6 @@ public struct Spec {
         modify { $0.addExpectation(file: file, line: line, block) }
     }
 
-    public func expect(
-        file: StaticString = #file,
-        line: UInt = #line,
-        _ status: HTTPResponse.Status
-    ) -> Self {
-        modify {
-            $0.addExpectation { response, body in
-                XCTAssertEqual(response.status, status, file: file, line: line)
-            }
-        }
-    }
-
     // MARK: - test
 
     public func test() async throws {
@@ -174,4 +141,48 @@ public struct Spec {
             }
         }
     }
+}
+
+public extension Spec {
+
+    mutating func addExpectation(
+        file: StaticString = #file,
+        line: UInt = #line,
+        _ status: HTTPResponse.Status
+    ) {
+        expectations.append(
+            .status(file: file, line: line, status)
+        )
+    }
+
+    mutating func addExpectation(
+        file: StaticString = #file,
+        line: UInt = #line,
+        _ name: HTTPField.Name,
+        _ block: ((String) async throws -> Void)? = nil
+    ) {
+        expectations.append(
+            .header(file: file, line: line, name: name, block: block)
+        )
+    }
+
+    // MARK: -
+
+    func expect(
+        file: StaticString = #file,
+        line: UInt = #line,
+        _ status: HTTPResponse.Status
+    ) -> Self {
+        modify { $0.addExpectation(file: file, line: line, status) }
+    }
+
+    func expect(
+        file: StaticString = #file,
+        line: UInt = #line,
+        _ name: HTTPField.Name,
+        _ block: ((String) async throws -> Void)? = nil
+    ) -> Self {
+        modify { $0.addExpectation(file: file, line: line, name, block) }
+    }
+
 }

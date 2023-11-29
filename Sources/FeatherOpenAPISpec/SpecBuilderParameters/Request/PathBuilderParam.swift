@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  PathBuilderParam.swift
+//  FeatherOpenAPISpec
 //
-//
-//  Created by Tibor Bodecs on 23/11/2023.
+//  Created by Tibor Bödecs on 23/11/2023.
 //
 
 public struct Path: SpecBuilderParameter {

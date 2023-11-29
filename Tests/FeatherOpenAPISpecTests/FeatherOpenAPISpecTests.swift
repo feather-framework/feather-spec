@@ -1,3 +1,10 @@
+//
+//  FeatherOpenAPISpecTests.swift
+//  FeatherOpenAPISpecTests
+//
+//  Created by Tibor Bödecs on 23/11/2023.
+//
+
 import Foundation
 import XCTest
 import OpenAPIRuntime
@@ -22,8 +29,11 @@ final class FeatherOpenAPISpecTests: XCTestCase {
             Path("todos")
             Header(.contentType, "application/json")
             Body(body)
-            Expectation(.ok)
-            Expectation { response, body in
+            Expect(.ok)
+            Expect(.contentType) {
+                XCTAssertEqual($0, "application/json; charset=utf-8")
+            }
+            Expect { response, body in
 
             }
         }
@@ -36,6 +46,9 @@ final class FeatherOpenAPISpecTests: XCTestCase {
         spec.setBody(body)
         spec.setHeader(.contentType, "application/json")
         spec.addExpectation(.ok)
+        spec.addExpectation(.contentType) {
+            XCTAssertEqual($0, "application/json; charset=utf-8")
+        }
         spec.addExpectation { response, body in
 
         }
@@ -46,6 +59,9 @@ final class FeatherOpenAPISpecTests: XCTestCase {
             .header(.contentType, "application/json")
             .body(body)
             .expect(.ok)
+            .expect(.contentType) {
+                XCTAssertEqual($0, "application/json; charset=utf-8")
+            }
             .expect { response, body in
 
             }
