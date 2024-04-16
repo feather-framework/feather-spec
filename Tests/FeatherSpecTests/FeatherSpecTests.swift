@@ -1,6 +1,6 @@
 //
-//  FeatherOpenAPISpecTests.swift
-//  FeatherOpenAPISpecTests
+//  FeatherSpecTests.swift
+//  FeatherSpecTests
 //
 //  Created by Tibor Bödecs on 23/11/2023.
 //
@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 import OpenAPIRuntime
 import HTTPTypes
-import FeatherOpenAPISpec
+import FeatherSpec
 
 enum SomeError: Error {
     case foo
@@ -44,7 +44,7 @@ public struct Custom: SpecBuilderParameter {
 }
 
 
-final class FeatherOpenAPISpecTests: XCTestCase {
+final class FeatherSpecTests: XCTestCase {
 
     func test(using runner: SpecRunner) async throws {
         let body = HTTPBody()
