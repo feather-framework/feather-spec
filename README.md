@@ -1,6 +1,6 @@
-# Feather OpenAPI Spec
+# Feather Spec
 
-The `FeatherOpenAPISpec` library provides a declarative unit testing tool for the Swift OpenAPI runtime.
+The `FeatherSpec` library provides a declarative unit testing tool.
 
 ## Getting started
 
@@ -13,13 +13,13 @@ Use at your own risk.
 To add a dependency on the package, declare it in your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/feather-framework/feather-openapi-spec", .upToNextMinor(from: "0.2.0")),
+.package(url: "https://github.com/feather-framework/feather-spec", .upToNextMinor(from: "0.3.0")),
 ```
 
 and to your application target, add `FeatherService` to your dependencies:
 
 ```swift
-.product(name: "FeatherOpenAPISpec", package: "feather-openapi-spec")
+.product(name: "FeatherSpec", package: "feather-spec")
 ```
 
 Example `Package.swift` file with `FeatherService` as a dependency:
@@ -31,11 +31,11 @@ import PackageDescription
 let package = Package(
     name: "my-application",
     dependencies: [
-        .package(url: "https://github.com/feather-framework/feather-openapi-spec", .upToNextMinor(from: "0.2.0")),
+        .package(url: "https://github.com/feather-framework/feather-spec", .upToNextMinor(from: "0.3.0")),
     ],
     targets: [
         .target(name: "MyApplication", dependencies: [
-            .product(name: "FeatherOpenAPISpec", package: "feather-openapi-spec")
+            .product(name: "FeatherSpec", package: "feather-spec")
         ]),
         .testTarget(name: "MyApplicationTests", dependencies: [
             .target(name: "MyApplication"),

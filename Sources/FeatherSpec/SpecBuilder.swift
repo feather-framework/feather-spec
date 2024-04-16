@@ -1,6 +1,6 @@
 //
 //  SpecBuilder.swift
-//  FeatherOpenAPISpec
+//  FeatherSpec
 //
 //  Created by Tibor Bödecs on 23/11/2023.
 //

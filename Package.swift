@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "feather-openapi-spec",
+    name: "feather-spec",
     platforms: [
         .macOS(.v13),
         .iOS(.v16),
@@ -11,18 +11,18 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "FeatherOpenAPISpec", targets: ["FeatherOpenAPISpec"]),
+        .library(name: "FeatherSpec", targets: ["FeatherSpec"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0-alpha.1"),
         
     ],
     targets: [
-        .target(name: "FeatherOpenAPISpec", dependencies: [
+        .target(name: "FeatherSpec", dependencies: [
             .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
         ]),
-        .testTarget(name: "FeatherOpenAPISpecTests", dependencies: [
-            .target(name: "FeatherOpenAPISpec"),
+        .testTarget(name: "FeatherSpecTests", dependencies: [
+            .target(name: "FeatherSpec"),
         ]),
     ]
 )
