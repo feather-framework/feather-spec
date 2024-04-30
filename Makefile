@@ -18,7 +18,7 @@ format:
 	
 doc:
 	swift package --allow-writing-to-directory ./docs \
-    generate-documentation --product FeatherSpec \
+    generate-documentation --target FeatherSpec \
     --disable-indexing \
     --transform-for-static-hosting \
     --hosting-base-path feather-spec \
