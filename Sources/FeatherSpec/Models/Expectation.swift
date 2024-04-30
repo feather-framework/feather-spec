@@ -9,12 +9,21 @@ import HTTPTypes
 import OpenAPIRuntime
 import XCTest
 
+/// Spec Expectation
 public struct Expectation {
-
+    
+    /// file
     public let file: StaticString
+    /// line
     public let line: UInt
+    /// block
     public let block: ((HTTPResponse, HTTPBody) async throws -> Void)
-
+    
+    /// init an Expectation
+    /// - Parameters:
+    ///   - file: file
+    ///   - line: line
+    ///   - block: Closure
     public init(
         file: StaticString,
         line: UInt,
@@ -27,7 +36,13 @@ public struct Expectation {
 }
 
 public extension Expectation {
-
+    
+    /// Expectation for a HTTPResponse.Status
+    /// - Parameters:
+    ///   - file: file
+    ///   - line: line
+    ///   - status: HTTPResponse.Status
+    /// - Returns: Expectation
     static func status(
         file: StaticString = #file,
         line: UInt = #line,
@@ -46,7 +61,14 @@ public extension Expectation {
             }
         )
     }
-
+    
+    /// Expectation for a HTTP header, with a HTTPField.Name
+    /// - Parameters:
+    ///   - file: file
+    ///   - line: line
+    ///   - name: HTTPField.Name
+    ///   - block: Closure
+    /// - Returns: Expectation
     static func header(
         file: StaticString = #file,
         line: UInt = #line,

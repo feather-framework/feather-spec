@@ -8,8 +8,14 @@
 import HTTPTypes
 import OpenAPIRuntime
 
+/// SpecRunner protocol
 public protocol SpecRunner {
-
+    
+    /// execute 
+    /// - Parameters:
+    ///   - req: HTTPRequest
+    ///   - body: HTTPBody
+    /// - Returns: (HTTPRequest, HTTPBody)
     func execute(
         req: HTTPRequest,
         body: HTTPBody
