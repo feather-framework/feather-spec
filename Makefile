@@ -16,9 +16,9 @@ clean:
 format:
 	swift-format -i -r ./Sources && swift-format -i -r ./Tests
 	
-docc:
+doc:
 	swift package --allow-writing-to-directory ./docs \
-    generate-documentation --target FeatherSpec \
+    generate-documentation --product FeatherSpec \
     --disable-indexing \
     --transform-for-static-hosting \
     --hosting-base-path feather-spec \
