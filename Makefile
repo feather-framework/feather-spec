@@ -21,5 +21,5 @@ docc:
     generate-documentation --target FeatherSpec \
     --disable-indexing \
     --transform-for-static-hosting \
-    --hosting-base-path https://feather-framework.github.io/feather-spec/ \
+    --hosting-base-path feather-spec \
     --output-path ./docs
