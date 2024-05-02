@@ -21,6 +21,6 @@ doc:
     generate-documentation --target FeatherSpec \
     --disable-indexing \
     --transform-for-static-hosting \
+	--hosting-base-path feather-spec \
 	--output-path ./docs
-    #--hosting-base-path feather-spec \
    
