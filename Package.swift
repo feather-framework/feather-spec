@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0-alpha.1"),
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ],
     targets: [
         .target(name: "FeatherSpec", dependencies: [
@@ -29,8 +29,10 @@ let package = Package(
     // https://rryam.github.io/MusadoraKit/documentation/musadorakit/
     
     // https://feather-framework.github.io/feather-spec/documentation/
+    
     // https://feather-framework.github.io/feather-spec/documentation/
-    // https://feather-framework.github.io/feather-spec/documentation/FeatherSpec
+    // https://feather-framework.github.io/feather-spec/documentation/
+    // https://feather-framework.github.io/feather-spec/documentation/feather-spec
     
     // https://docs.hummingbird.codes/1.0/documentation/hummingbird/
 )
