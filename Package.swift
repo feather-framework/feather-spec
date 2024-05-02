@@ -25,4 +25,12 @@ let package = Package(
             .target(name: "FeatherSpec"),
         ]),
     ]
+    
+    // https://rryam.github.io/MusadoraKit/documentation/musadorakit/
+    
+    // https://feather-framework.github.io/feather-spec/documentation/
+    // https://feather-framework.github.io/feather-spec/documentation/
+    // https://feather-framework.github.io/feather-spec/documentation/FeatherSpec
+    
+    // https://docs.hummingbird.codes/1.0/documentation/hummingbird/
 )
