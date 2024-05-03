@@ -26,13 +26,5 @@ let package = Package(
         ]),
     ]
     
-    // https://rryam.github.io/MusadoraKit/documentation/musadorakit/
-    
-    // https://feather-framework.github.io/feather-spec/documentation/
-    
-    // https://feather-framework.github.io/feather-spec/documentation/
-    // https://feather-framework.github.io/feather-spec/documentation/
-    // https://feather-framework.github.io/feather-spec/documentation/feather-spec
-    
-    // https://docs.hummingbird.codes/1.0/documentation/hummingbird/
+    // https://feather-framework.github.io/feather-spec/documentation/featherspec
 )
