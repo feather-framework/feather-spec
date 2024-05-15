@@ -5,11 +5,11 @@
 //  Created by Tibor Bödecs on 23/11/2023.
 //
 
-/// SpecBuilderParameter protocol
+/// A protocol defining the interface for building specifications.
 public protocol SpecBuilderParameter {
     
-    /// build
-    /// - Parameter spec: Spec
+    /// Builds the specification by modifying it.
+    ///
+    /// - Parameter spec: The specification to be modified.
     func build(_ spec: inout Spec)
-    
 }

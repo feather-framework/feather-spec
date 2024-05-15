@@ -9,21 +9,24 @@ import HTTPTypes
 import OpenAPIRuntime
 import XCTest
 
-/// Spec Expectation
+/// A structure representing an expectation to be used in building specifications.
 public struct Expectation {
     
-    /// file
+    /// The file where the expectation is defined.
     public let file: StaticString
-    /// line
+    
+    /// The line number where the expectation is defined.
     public let line: UInt
-    /// block
+    
+    /// A closure representing the expectation block.
     public let block: ((HTTPResponse, HTTPBody) async throws -> Void)
     
-    /// init an Expectation
+    /// Initializes an `Expectation` instance with the specified parameters.
+    ///
     /// - Parameters:
-    ///   - file: file
-    ///   - line: line
-    ///   - block: Closure
+    ///   - file: The file where the expectation is defined.
+    ///   - line: The line number where the expectation is defined.
+    ///   - block: The closure representing the expectation block.
     public init(
         file: StaticString,
         line: UInt,
@@ -37,12 +40,13 @@ public struct Expectation {
 
 public extension Expectation {
     
-    /// Expectation for a HTTPResponse.Status
+    /// Creates an `Expectation` instance for verifying the HTTP response status.
+    ///
     /// - Parameters:
-    ///   - file: file
-    ///   - line: line
-    ///   - status: HTTPResponse.Status
-    /// - Returns: Expectation
+    ///   - file: The file where the expectation is defined.
+    ///   - line: The line number where the expectation is defined.
+    ///   - status: The expected HTTP response status.
+    /// - Returns: An `Expectation` instance for verifying the HTTP response status.
     static func status(
         file: StaticString = #file,
         line: UInt = #line,
@@ -62,13 +66,14 @@ public extension Expectation {
         )
     }
     
-    /// Expectation for a HTTP header, with a HTTPField.Name
+    /// Creates an `Expectation` instance for verifying the presence of a specific HTTP header.
+    ///
     /// - Parameters:
-    ///   - file: file
-    ///   - line: line
-    ///   - name: HTTPField.Name
-    ///   - block: Closure
-    /// - Returns: Expectation
+    ///   - file: The file where the expectation is defined.
+    ///   - line: The line number where the expectation is defined.
+    ///   - name: The name of the HTTP header field to verify.
+    ///   - block: An optional closure to further verify the header value.
+    /// - Returns: An `Expectation` instance for verifying the presence of a specific HTTP header.
     static func header(
         file: StaticString = #file,
         line: UInt = #line,
