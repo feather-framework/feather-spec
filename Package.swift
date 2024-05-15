@@ -26,5 +26,4 @@ let package = Package(
         ]),
     ]
     
-    // https://feather-framework.github.io/feather-spec/documentation/featherspec
 )

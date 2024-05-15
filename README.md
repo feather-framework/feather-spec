@@ -48,3 +48,4 @@ let package = Package(
 
 See the `FeatherServiceTests` target for a basic service implementation.
 
+[Documentation](https://feather-framework.github.io/feather-spec/documentation/featherspec)
