@@ -16,13 +16,13 @@ To add a dependency on the package, declare it in your `Package.swift`:
 .package(url: "https://github.com/feather-framework/feather-spec", .upToNextMinor(from: "0.3.1")),
 ```
 
-and to your application target, add `FeatherService` to your dependencies:
+and to your application target, add `FeatherSpec` to your dependencies:
 
 ```swift
 .product(name: "FeatherSpec", package: "feather-spec")
 ```
 
-Example `Package.swift` file with `FeatherService` as a dependency:
+Example `Package.swift` file with `FeatherSpec` as a dependency:
 
 ```swift
 // swift-tools-version:5.9
