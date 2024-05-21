@@ -14,8 +14,8 @@ let package = Package(
         .library(name: "FeatherSpec", targets: ["FeatherSpec"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.4.0"),
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0")
+        .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ],
     targets: [
         .target(name: "FeatherSpec", dependencies: [
