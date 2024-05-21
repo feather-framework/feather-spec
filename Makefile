@@ -19,8 +19,11 @@ format:
 doc:
 	swift package --allow-writing-to-directory ./docs \
     generate-documentation --target FeatherSpec \
+	--include-extended-types \
     --disable-indexing \
     --transform-for-static-hosting \
 	--hosting-base-path feather-spec \
 	--output-path ./docs
-   
+	
+preview:
+	swift package --disable-sandbox preview-documentation --target FeatherSpec
