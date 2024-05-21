@@ -9,9 +9,17 @@ import OpenAPIRuntime
 import HTTPTypes
 import XCTest
 
+/// A struct representing an expectation to be used in building a specification.
 public struct Expect: SpecBuilderParameter {
+    // The expectation to be used in the specification.
     let expectation: Expectation
 
+    /// Initializes an `Expect` instance with a block to be executed.
+    ///
+    /// - Parameters:
+    ///   - file: The file where the expectation is defined. Defaults to the current file.
+    ///   - line: The line number where the expectation is defined. Defaults to the current line.
+    ///   - block: A closure that takes an `HTTPResponse` and `HTTPBody` and performs an asynchronous operation.
     public init(
         file: StaticString = #file,
         line: UInt = #line,
@@ -24,6 +32,9 @@ public struct Expect: SpecBuilderParameter {
         )
     }
 
+    /// Builds the specification by adding the expectation.
+    ///
+    /// - Parameter spec: The specification to be modified.
     public func build(_ spec: inout Spec) {
         spec.addExpectation(
             file: expectation.file,
@@ -37,6 +48,12 @@ public struct Expect: SpecBuilderParameter {
 
 public extension Expect {
 
+    /// Initializes an `Expect` instance with a status code to be expected.
+    ///
+    /// - Parameters:
+    ///   - file: The file where the expectation is defined. Defaults to the current file.
+    ///   - line: The line number where the expectation is defined. Defaults to the current line.
+    ///   - status: The HTTP response status to be expected.
     init(
         file: StaticString = #file,
         line: UInt = #line,
@@ -45,6 +62,13 @@ public extension Expect {
         self.expectation = .status(file: file, line: line, status)
     }
 
+    /// Initializes an `Expect` instance with a header to be expected.
+    ///
+    /// - Parameters:
+    ///   - file: The file where the expectation is defined. Defaults to the current file.
+    ///   - line: The line number where the expectation is defined. Defaults to the current line.
+    ///   - name: The name of the HTTP header field to be expected.
+    ///   - block: An optional closure that takes a `String` and performs an asynchronous operation.
     init(
         file: StaticString = #file,
         line: UInt = #line,
