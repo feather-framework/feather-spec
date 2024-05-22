@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-latest
     name: test actions
     steps:
-      - uses: feather-framework/feather-actions@0.0.5
+      - uses: feather-framework/feather-actions@0.0.6
   
 
 
