@@ -6,11 +6,11 @@ on:
     - test/actions
 
 jobs:
-  macOS-tests:
+  generate-docs:
     runs-on: macos-latest
-    name: test actions
+
     steps:
-      - uses: feather-framework/feather-actions@0.0.7
-  
-
-
+      - name: Trigger reusable workflow
+        uses: feather-framework/feather-actions@0.0.8
+        with:
+          targets: "FeatherSpec"
