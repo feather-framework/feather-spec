@@ -12,6 +12,6 @@ jobs:
     steps:
       - name: Trigger reusable workflow
         #uses: feather-framework/feather-actions@0.0.10
-        uses: feather-framework/feather-actions/./action.yml@0.0.10
+        uses: feather-framework/feather-actions/action.yml@0.0.10
         with:
           targets: "FeatherSpec"
