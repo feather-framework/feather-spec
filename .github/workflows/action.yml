@@ -5,6 +5,9 @@ on:
     branches:
     - test/actions
 
+permissions:
+  contents: write 
+
 jobs:
   generate-docs:
     runs-on: macos-latest
