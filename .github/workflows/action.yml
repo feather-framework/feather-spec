@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - name: Trigger reusable workflow
-        uses: feather-framework/feather-actions@0.0.13
+        uses: feather-framework/feather-actions@0.0.14
         with:
           targets: "FeatherSpec"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
