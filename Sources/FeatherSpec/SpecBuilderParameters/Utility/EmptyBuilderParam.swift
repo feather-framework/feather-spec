@@ -1,13 +1,6 @@
-//
-//  EmptyBuilderParam.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
 /// A struct that represents an empty specification builder.
 public struct Empty: SpecBuilderParameter {
-    
+
     /// Initializes a new instance of `Empty`.
     /// The initializer is marked as internal, so it can only be used within the same module.
     internal init() {}

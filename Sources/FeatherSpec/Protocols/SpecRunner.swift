@@ -1,27 +1,56 @@
-//
-//  SpecRunner.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
-import HTTPTypes
-import OpenAPIRuntime
-
-/// A protocol defining the interface for running HTTP request specifications.
 public protocol SpecRunner {
-    
-    /// Executes an HTTP request specification asynchronously.
+
+    /// Asynchronously tests a specification.
     ///
-    /// - Parameters:
-    ///   - req: The HTTP request to execute.
-    ///   - body: The HTTP request body.
-    /// - Returns: A tuple containing the HTTP response and response body.
-    func execute(
-        req: HTTPRequest,
-        body: HTTPBody
-    ) async throws -> (
-        response: HTTPResponse,
-        body: HTTPBody
-    )
+    /// - Parameter block: A closure that takes a `SpecExecutor` and performs asynchronous operations.
+    ///
+    func test(
+        block: @escaping (SpecExecutor) async throws -> Void
+    ) async throws
+}
+
+// NOTE: result type?
+extension SpecRunner {
+
+    /// Runs multiple `Spec` instances asynchronously.
+    /// - Parameter specs: A variadic list of `Spec` instances to be executed.
+    ///
+    public func run(
+        _ specs: Spec...
+    ) async throws {
+        try await run(specs)
+    }
+
+    /// Runs an array of `Spec` instances asynchronously.
+    /// - Parameter specs: An array of `Spec` instances to be executed.
+    ///
+    public func run(
+        _ specs: [Spec]
+    ) async throws {
+        try await test { executor in
+            for spec in specs {
+                try await spec.run(using: executor)
+            }
+        }
+    }
+
+    /// Runs a `SpecBuilder` instance asynchronously.
+    /// - Parameter builder: The `SpecBuilder` instance to be executed.
+    ///
+    public func run(
+        _ builder: SpecBuilder
+    ) async throws {
+        try await run(builder.build())
+    }
+
+    /// Runs a given `SpecBuilderParameter` asynchronously using a builder block.
+    /// - Parameter parameterBuilderBlock: A closure that returns a `SpecBuilderParameter`.
+    ///
+    public func run(
+        @SpecBuilder parameterBuilderBlock: () -> SpecBuilderParameter
+    ) async throws {
+        var spec = Spec()
+        parameterBuilderBlock().build(&spec)
+        try await run(spec)
+    }
 }

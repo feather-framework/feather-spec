@@ -25,5 +25,4 @@ let package = Package(
             .target(name: "FeatherSpec"),
         ]),
     ]
-    
 )

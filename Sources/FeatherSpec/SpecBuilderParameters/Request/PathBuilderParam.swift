@@ -1,10 +1,3 @@
-//
-//  PathBuilderParam.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
 /// A struct representing a URL path to be used in building a specification.
 public struct Path: SpecBuilderParameter {
     // The URL path as an optional string.

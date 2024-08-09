@@ -1,19 +1,12 @@
-//
-//  HeaderBuilderParam.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
 import HTTPTypes
 
 /// A struct that represents a header for an API request.
 /// It conforms to the `SpecBuilderParameter` protocol and sets the header in the specification.
 public struct Header: SpecBuilderParameter {
-    
+
     /// The name of the HTTP header field.
     let name: HTTPField.Name
-    
+
     /// The value of the HTTP header field.
     let value: String
 
