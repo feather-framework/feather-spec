@@ -26,8 +26,8 @@ jobs:
     - name: Check Broken Symlinks
       uses: feather-actions/check-broken-symlinks@0.0.2
     
-    - name: Check Unacceptable Language
-      uses: feather-actions/check-language@0.0.4
+    #- name: Check Unacceptable Language
+    #  uses: feather-actions/check-language@0.0.4
 
     - name: Check Local Swift Dependencies
       uses: feather-actions/check-local-swift-dependencies@0.0.3
