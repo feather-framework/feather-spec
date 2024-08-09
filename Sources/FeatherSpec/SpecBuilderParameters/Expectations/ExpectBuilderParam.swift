@@ -8,8 +8,7 @@ public struct Expect: SpecBuilderParameter {
 
     /// Initializes an `Expect` instance with a block to be executed.
     ///
-    /// - Parameters:
-    ///   - block: A closure that takes an `HTTPResponse` and `HTTPBody` and performs an asynchronous operation.
+    /// - Parameter block: A closure that takes an `HTTPResponse` and `HTTPBody` and performs an asynchronous operation.
     public init(
         block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
     ) {
@@ -30,8 +29,7 @@ public extension Expect {
 
     /// Initializes an `Expect` instance with a status code to be expected.
     ///
-    /// - Parameters:
-    ///   - status: The HTTP response status to be expected.
+    /// - Parameter status: The HTTP response status to be expected.
     init(_ status: HTTPResponse.Status) {
         self.expectation = .status(status)
     }

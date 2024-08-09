@@ -14,8 +14,6 @@ public struct Spec {
     private var expectations: [Expectation]
 
     /// Initializes a `Spec` instance with the given executor.
-    ///
-    /// - Parameter runner: The executor responsible for running the specification.
     public init() {
         self.request = .init(
             method: .get,

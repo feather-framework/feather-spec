@@ -9,8 +9,7 @@ public struct Expectation {
 
     /// Initializes an `Expectation` instance with the specified parameters.
     ///
-    /// - Parameters:
-    ///   - block: The closure representing the expectation block.
+    /// - Parameter block: The closure representing the expectation block.
     public init(
         block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
     ) {
@@ -22,8 +21,7 @@ public extension Expectation {
 
     /// Creates an `Expectation` instance for verifying the HTTP response status.
     ///
-    /// - Parameters:
-    ///   - status: The expected HTTP response status.
+    /// - Parameter status: The expected HTTP response status.
     /// - Returns: An `Expectation` instance for verifying the HTTP response status.
     static func status(
         _ status: HTTPResponse.Status

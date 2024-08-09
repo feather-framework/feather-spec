@@ -11,6 +11,7 @@ struct Custom: SpecBuilderParameter {
         self.expectation = .init(block: block)
     }
 
+    /// build
     public func build(_ spec: inout Spec) {
         spec.addExpectation(expectation.block)
     }

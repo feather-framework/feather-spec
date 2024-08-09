@@ -1,9 +1,10 @@
+/// SpecRunner
 public protocol SpecRunner {
 
     /// Asynchronously tests a specification.
     ///
     /// - Parameter block: A closure that takes a `SpecExecutor` and performs asynchronous operations.
-    ///
+    /// - Throws: error
     func test(
         block: @escaping (SpecExecutor) async throws -> Void
     ) async throws
@@ -14,7 +15,7 @@ extension SpecRunner {
 
     /// Runs multiple `Spec` instances asynchronously.
     /// - Parameter specs: A variadic list of `Spec` instances to be executed.
-    ///
+    /// - Throws: error
     public func run(
         _ specs: Spec...
     ) async throws {
@@ -23,7 +24,7 @@ extension SpecRunner {
 
     /// Runs an array of `Spec` instances asynchronously.
     /// - Parameter specs: An array of `Spec` instances to be executed.
-    ///
+    /// - Throws: error
     public func run(
         _ specs: [Spec]
     ) async throws {
@@ -36,7 +37,7 @@ extension SpecRunner {
 
     /// Runs a `SpecBuilder` instance asynchronously.
     /// - Parameter builder: The `SpecBuilder` instance to be executed.
-    ///
+    /// - Throws: error
     public func run(
         _ builder: SpecBuilder
     ) async throws {
@@ -45,7 +46,7 @@ extension SpecRunner {
 
     /// Runs a given `SpecBuilderParameter` asynchronously using a builder block.
     /// - Parameter parameterBuilderBlock: A closure that returns a `SpecBuilderParameter`.
-    ///
+    /// - Throws: error
     public func run(
         @SpecBuilder parameterBuilderBlock: () -> SpecBuilderParameter
     ) async throws {

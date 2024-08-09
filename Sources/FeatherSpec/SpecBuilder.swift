@@ -7,7 +7,7 @@ public struct SpecBuilder {
 
     /// Initializes a `SpecBuilder` instance with the specified builder closure.
     ///
-    /// - Parameter builder: The closure containing the specification building code.
+    /// - Parameter parameterBuilderBlock: The closure containing the specification building code.
     public init(
         @SpecBuilder parameterBuilderBlock: () -> SpecBuilderParameter
     ) {
