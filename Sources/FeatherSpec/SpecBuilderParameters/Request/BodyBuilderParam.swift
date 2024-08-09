@@ -1,17 +1,10 @@
-//
-//  BodyBuilderParam.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
 import OpenAPIRuntime
 import HTTPTypes
 
 /// A struct that represents a body for an API request.
 /// It conforms to the `SpecBuilderParameter` protocol and sets the body of the specification.
 public struct Body: SpecBuilderParameter {
-    
+
     /// The body of the API request.
     public var body: HTTPBody
 

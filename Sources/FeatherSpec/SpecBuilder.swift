@@ -1,10 +1,3 @@
-//
-//  SpecBuilder.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
 /// A result builder for building HTTP request specifications.
 @resultBuilder
 public struct SpecBuilder {
@@ -14,21 +7,18 @@ public struct SpecBuilder {
 
     /// Initializes a `SpecBuilder` instance with the specified builder closure.
     ///
-    /// - Parameter builder: The closure containing the specification building code.
+    /// - Parameter parameterBuilderBlock: The closure containing the specification building code.
     public init(
-        @SpecBuilder builder: () -> SpecBuilderParameter
+        @SpecBuilder parameterBuilderBlock: () -> SpecBuilderParameter
     ) {
-        root = builder()
+        root = parameterBuilderBlock()
     }
 
     /// Builds a specification using the provided runner.
     ///
-    /// - Parameter runner: The runner responsible for executing the specification.
     /// - Returns: The built specification.
-    public func build(
-        using runner: SpecRunner
-    ) -> Spec {
-        var spec = Spec(runner: runner)
+    public func build() -> Spec {
+        var spec = Spec()
         root.build(&spec)
         return spec
     }

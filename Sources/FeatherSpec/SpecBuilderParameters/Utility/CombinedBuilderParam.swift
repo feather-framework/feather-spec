@@ -1,13 +1,6 @@
-//
-//  CombinedBuilderParam.swift
-//  FeatherSpec
-//
-//  Created by Tibor Bödecs on 23/11/2023.
-//
-
 /// A struct that combines multiple `SpecBuilderParameter` instances.
 struct Combined: SpecBuilderParameter {
-    
+
     /// An array of parameters that conform to `SpecBuilderParameter`.
     let params: [SpecBuilderParameter]
 
