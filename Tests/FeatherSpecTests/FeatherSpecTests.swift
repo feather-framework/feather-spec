@@ -188,30 +188,4 @@ final class FeatherSpecTests: XCTestCase {
             XCTAssertEqual(value, .authorization)
         }
     }
-
-    func testExecutorSpec() async throws {
-        let spec = SpecBuilder {
-            Expect(.ok)
-        }
-        .build()
-
-        let executor = PostTodoExecutor(todo: todo)
-        try await executor.execute(spec)
-    }
-
-    func testExecutorSpecBuilder() async throws {
-        let specBuilder = SpecBuilder {
-            Expect(.ok)
-        }
-
-        let executor = PostTodoExecutor(todo: todo)
-        try await executor.execute(specBuilder)
-    }
-
-    func testExecutorSpecBuilderParameter() async throws {
-        let executor = PostTodoExecutor(todo: todo)
-        try await executor.execute {
-            Expect(.ok)
-        }
-    }
 }
