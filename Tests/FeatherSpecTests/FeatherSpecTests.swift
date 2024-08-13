@@ -192,6 +192,9 @@ final class FeatherSpecTests: XCTestCase {
     func testExecutorSpec() async throws {
         let spec = SpecBuilder {
             Expect(.ok)
+            Expect { response, body in
+                XCTAssertEqual(response.status.code, 200)
+            }
         }
         .build()
 
@@ -202,6 +205,9 @@ final class FeatherSpecTests: XCTestCase {
     func testExecutorSpecBuilder() async throws {
         let specBuilder = SpecBuilder {
             Expect(.ok)
+            Expect { response, body in
+                XCTAssertEqual(response.status.code, 200)
+            }
         }
 
         let executor = PostTodoExecutor(todo: todo)
@@ -212,6 +218,9 @@ final class FeatherSpecTests: XCTestCase {
         let executor = PostTodoExecutor(todo: todo)
         try await executor.execute {
             Expect(.ok)
+            Expect { response, body in
+                XCTAssertEqual(response.status.code, 200)
+            }
         }
     }
 }

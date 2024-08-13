@@ -30,10 +30,7 @@ extension SpecExecutor {
     public func execute(
         _ spec: Spec
     ) async throws {
-        try await self.execute(
-            req: spec.request,
-            body: spec.body
-        )
+        try await spec.run(using: self)
     }
 
     /// Executes a given `SpecBuilder` asynchronously.
@@ -42,7 +39,8 @@ extension SpecExecutor {
     public func execute(
         _ builder: SpecBuilder
     ) async throws {
-        try await execute(builder.build())
+        let spec = builder.build()
+        try await spec.run(using: self)
     }
 
     /// Executes a given `SpecBuilderParameter` asynchronously using a builder block.
@@ -51,10 +49,10 @@ extension SpecExecutor {
     public func execute(
         @SpecBuilder parameterBuilderBlock: () -> SpecBuilderParameter
     ) async throws {
-        try await execute(
-            .init(
-                parameterBuilderBlock: parameterBuilderBlock
-            )
+        let spec = SpecBuilder(
+            parameterBuilderBlock: parameterBuilderBlock
         )
+        .build()
+        try await spec.run(using: self)
     }
 }
