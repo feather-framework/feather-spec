@@ -21,3 +21,37 @@ public protocol SpecExecutor {
         body: HTTPBody
     )
 }
+
+extension SpecExecutor {
+
+    /// Executes a given `Spec` asynchronously.
+    /// - Parameter spec: The `Spec` instance to be executed.
+    /// - Throws: error
+    public func execute(
+        _ spec: Spec
+    ) async throws {
+        try await spec.run(using: self)
+    }
+
+    /// Executes a given `SpecBuilder` asynchronously.
+    /// - Parameter builder: The `SpecBuilder` instance to be executed.
+    /// - Throws: error
+    public func execute(
+        _ builder: SpecBuilder
+    ) async throws {
+        let spec = builder.build()
+        try await spec.run(using: self)
+    }
+
+    /// Executes a given `SpecBuilderParameter` asynchronously using a builder block.
+    /// - Parameter parameterBuilderBlock: A closure that returns a `SpecBuilderParameter`.
+    /// - Throws: error
+    public func execute(
+        @SpecBuilder parameterBuilderBlock: () -> SpecBuilderParameter
+    ) async throws {
+        let spec = SpecBuilder(
+            parameterBuilderBlock: parameterBuilderBlock
+        ).build()
+        try await spec.run(using: self)
+    }
+}
