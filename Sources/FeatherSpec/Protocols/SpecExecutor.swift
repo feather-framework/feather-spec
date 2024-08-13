@@ -51,7 +51,8 @@ extension SpecExecutor {
     ) async throws {
         let spec = SpecBuilder(
             parameterBuilderBlock: parameterBuilderBlock
-        ).build()
+        )
+        .build()
         try await spec.run(using: self)
     }
 }
