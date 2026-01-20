@@ -1,3 +1,9 @@
+//
+//  Spec.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
 import OpenAPIRuntime
 
@@ -147,10 +153,11 @@ public struct Spec {
     }
 }
 
-public extension Spec {
+/// Convenience `Spec` expectation helpers.
+extension Spec {
 
     /// Adds an expectation for verifying the HTTP response status.
-    mutating func addExpectation(
+    public mutating func addExpectation(
         _ status: HTTPResponse.Status
     ) {
         expectations.append(
@@ -159,7 +166,7 @@ public extension Spec {
     }
 
     /// Adds an expectation for verifying the presence of a specific HTTP header.
-    mutating func addExpectation(
+    public mutating func addExpectation(
         _ name: HTTPField.Name,
         _ block: ((String) async throws -> Void)? = nil
     ) {
@@ -171,14 +178,14 @@ public extension Spec {
     // MARK: -
 
     /// Adds an expectation for verifying the HTTP response status.
-    func expect(
+    public func expect(
         _ status: HTTPResponse.Status
     ) -> Self {
         modify { $0.addExpectation(status) }
     }
 
     /// Adds an expectation for verifying the presence of a specific HTTP header.
-    func expect(
+    public func expect(
         _ name: HTTPField.Name,
         _ block: ((String) async throws -> Void)? = nil
     ) -> Self {

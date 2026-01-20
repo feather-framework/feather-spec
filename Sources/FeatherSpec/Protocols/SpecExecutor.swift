@@ -1,3 +1,9 @@
+//
+//  SpecExecutor.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
 import OpenAPIRuntime
 
@@ -22,6 +28,7 @@ public protocol SpecExecutor {
     )
 }
 
+/// Convenience `SpecExecutor` helpers.
 extension SpecExecutor {
 
     /// Executes a given `Spec` asynchronously.

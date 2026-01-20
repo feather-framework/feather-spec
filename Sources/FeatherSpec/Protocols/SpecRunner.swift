@@ -1,4 +1,10 @@
-/// SpecRunner
+//
+//  SpecRunner.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
+/// SpecRunner.
 public protocol SpecRunner {
 
     /// Asynchronously tests a specification.
@@ -11,6 +17,7 @@ public protocol SpecRunner {
 }
 
 // NOTE: result type?
+/// Default `SpecRunner` helpers.
 extension SpecRunner {
 
     /// Runs multiple `Spec` instances asynchronously.

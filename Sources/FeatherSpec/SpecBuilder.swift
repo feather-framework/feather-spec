@@ -1,3 +1,9 @@
+//
+//  SpecBuilder.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 /// A result builder for building HTTP request specifications.
 @resultBuilder
 public struct SpecBuilder {

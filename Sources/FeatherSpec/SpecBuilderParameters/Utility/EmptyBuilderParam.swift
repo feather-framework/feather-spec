@@ -1,3 +1,9 @@
+//
+//  EmptyBuilderParam.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 /// A struct that represents an empty specification builder.
 public struct Empty: SpecBuilderParameter {
 

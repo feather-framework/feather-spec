@@ -1,5 +1,12 @@
+//
+//  SpecError.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
 
+/// Spec error definitions.
 extension Spec {
 
     /// An enumeration that represents errors that can occur in a Spec context.

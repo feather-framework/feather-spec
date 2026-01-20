@@ -1,5 +1,11 @@
-import OpenAPIRuntime
+//
+//  ExpectBuilderParam.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
+import OpenAPIRuntime
 
 /// A struct representing an expectation to be used in building a specification.
 public struct Expect: SpecBuilderParameter {
@@ -25,12 +31,13 @@ public struct Expect: SpecBuilderParameter {
 
 // MARK: - convenience init
 
-public extension Expect {
+/// Convenience `Expect` initializers.
+extension Expect {
 
     /// Initializes an `Expect` instance with a status code to be expected.
     ///
     /// - Parameter status: The HTTP response status to be expected.
-    init(_ status: HTTPResponse.Status) {
+    public init(_ status: HTTPResponse.Status) {
         self.expectation = .status(status)
     }
 
@@ -39,7 +46,7 @@ public extension Expect {
     /// - Parameters:
     ///   - name: The name of the HTTP header field to be expected.
     ///   - block: An optional closure that takes a `String` and performs an asynchronous operation.
-    init(
+    public init(
         _ name: HTTPField.Name,
         _ block: ((String) async throws -> Void)? = nil
     ) {

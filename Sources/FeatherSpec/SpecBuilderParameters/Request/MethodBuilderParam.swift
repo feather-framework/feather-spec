@@ -1,3 +1,9 @@
+//
+//  MethodBuilderParam.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
 
 /// A struct representing an HTTP request method to be used in building a specification.

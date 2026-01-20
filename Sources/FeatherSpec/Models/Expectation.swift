@@ -1,3 +1,9 @@
+//
+//  Expectation.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
 import OpenAPIRuntime
 
@@ -17,13 +23,14 @@ public struct Expectation {
     }
 }
 
-public extension Expectation {
+/// Convenience `Expectation` factories.
+extension Expectation {
 
     /// Creates an `Expectation` instance for verifying the HTTP response status.
     ///
     /// - Parameter status: The expected HTTP response status.
     /// - Returns: An `Expectation` instance for verifying the HTTP response status.
-    static func status(
+    public static func status(
         _ status: HTTPResponse.Status
     ) -> Self {
         .init(
@@ -41,7 +48,7 @@ public extension Expectation {
     ///   - name: The name of the HTTP header field to verify.
     ///   - block: An optional closure to further verify the header value.
     /// - Returns: An `Expectation` instance for verifying the presence of a specific HTTP header.
-    static func header(
+    public static func header(
         name: HTTPField.Name,
         block: ((String) async throws -> Void)? = nil
     ) -> Self {
