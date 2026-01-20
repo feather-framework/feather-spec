@@ -4,6 +4,8 @@
 //
 //  Created by Binary Birds on 2026. 01. 20..
 
+import HTTPTypes
+import OpenAPIRuntime
 import Testing
 
 @testable import FeatherSpec
@@ -224,14 +226,17 @@ struct FeatherSpecTests {
     @Test
     func testExecutorSpec() async throws {
         let spec = SpecBuilder {
-            Expect(.ok)
+            Expect(.created)
             Expect { response, body in
-                #expect(response.status.code == 200)
+                #expect(response.status.code == 201)
             }
         }
         .build()
 
-        let executor = MockExecutor(todo: todo)
+        let executor = MockExecutor(
+            todo: todo,
+            status: .created
+        )
         try await executor.execute(spec)
     }
 
@@ -239,25 +244,88 @@ struct FeatherSpecTests {
     @Test
     func testExecutorSpecBuilder() async throws {
         let specBuilder = SpecBuilder {
-            Expect(.ok)
+            Expect(.created)
             Expect { response, body in
-                #expect(response.status.code == 200)
+                #expect(response.status.code == 201)
             }
         }
 
-        let executor = MockExecutor(todo: todo)
+        let executor = MockExecutor(
+            todo: todo,
+            status: .created
+        )
         try await executor.execute(specBuilder)
     }
 
     /// Verifies executing a builder-parameter block via executor.
     @Test
     func testExecutorSpecBuilderParameter() async throws {
-        let executor = MockExecutor(todo: todo)
+        let executor = MockExecutor(
+            todo: todo,
+            status: .created
+        )
         try await executor.execute {
-            Expect(.ok)
+            Expect(.created)
             Expect { response, body in
-                #expect(response.status.code == 200)
+                #expect(response.status.code == 201)
             }
         }
+    }
+
+    /// Verifies decode error when `Content-Length` is missing.
+    @Test
+    func testDecodeMissingContentLength() async throws {
+        let spec = SpecBuilder {
+            Expect { response, body in
+                do {
+                    _ = try await body.decode(Todo.self, with: response)
+                    #expect(Bool(false))
+                }
+                catch HTTPBody.DecodeError.missingContentLength {
+                    #expect(true)
+                }
+                catch {
+                    #expect(Bool(false))
+                }
+            }
+        }
+        .build()
+
+        let executor = MockExecutor(
+            todo: todo,
+            headerFields: [
+                .contentType: "application/json; charset=utf-8"
+            ]
+        )
+        try await executor.execute(spec)
+    }
+
+    /// Verifies decode error when `Content-Length` is invalid.
+    @Test
+    func testDecodeInvalidContentLength() async throws {
+        let spec = SpecBuilder {
+            Expect { response, body in
+                do {
+                    _ = try await body.decode(Todo.self, with: response)
+                    #expect(Bool(false))
+                }
+                catch HTTPBody.DecodeError.invalidContentLength {
+                    #expect(true)
+                }
+                catch {
+                    #expect(Bool(false))
+                }
+            }
+        }
+        .build()
+
+        let executor = MockExecutor(
+            todo: todo,
+            headerFields: [
+                .contentType: "application/json; charset=utf-8",
+                .contentLength: "nope",
+            ]
+        )
+        try await executor.execute(spec)
     }
 }
