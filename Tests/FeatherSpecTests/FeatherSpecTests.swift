@@ -11,17 +11,53 @@ import Testing
 @testable import FeatherSpec
 
 /// Test suite for `FeatherSpec`.
+///
+/// Covers the fluent API, DSL builder, and executor integrations.
 @Suite
 struct FeatherSpecTests {
 
     /// Shared request path used across tests.
+    ///
+    /// This keeps expectations consistent across cases.
     let path = "todos"
     /// Shared todo model used across tests.
+    ///
+    /// The title is asserted in decoding expectations.
     let todo = Todo(title: "task01")
     /// Shared JSON request body used across tests.
+    ///
+    /// This is derived from the shared todo.
     let body = Todo(title: "task01").httpBody
     /// Shared content type header value used across tests.
+    ///
+    /// Used to validate header expectations.
     let contentType = "application/json"
+
+    /// Asserts that decoding fails with the expected `HTTPBody.DecodeError`.
+    ///
+    /// This keeps decode error tests consistent and readable.
+    func expectDecodeError(
+        _ expected: HTTPBody.DecodeError,
+        response: HTTPResponse,
+        body: HTTPBody
+    ) async {
+        do {
+            _ = try await body.decode(Todo.self, with: response)
+            #expect(Bool(false))
+        }
+        catch let error as HTTPBody.DecodeError {
+            switch (error, expected) {
+            case (.missingContentLength, .missingContentLength),
+                (.invalidContentLength, .invalidContentLength):
+                #expect(Bool(true))
+            default:
+                #expect(Bool(false))
+            }
+        }
+        catch {
+            #expect(Bool(false))
+        }
+    }
 
     /// Verifies the mutating `Spec` API.
     @Test
@@ -277,16 +313,11 @@ struct FeatherSpecTests {
     func testDecodeMissingContentLength() async throws {
         let spec = SpecBuilder {
             Expect { response, body in
-                do {
-                    _ = try await body.decode(Todo.self, with: response)
-                    #expect(Bool(false))
-                }
-                catch HTTPBody.DecodeError.missingContentLength {
-                    #expect(true)
-                }
-                catch {
-                    #expect(Bool(false))
-                }
+                await expectDecodeError(
+                    .missingContentLength,
+                    response: response,
+                    body: body
+                )
             }
         }
         .build()
@@ -305,16 +336,11 @@ struct FeatherSpecTests {
     func testDecodeInvalidContentLength() async throws {
         let spec = SpecBuilder {
             Expect { response, body in
-                do {
-                    _ = try await body.decode(Todo.self, with: response)
-                    #expect(Bool(false))
-                }
-                catch HTTPBody.DecodeError.invalidContentLength {
-                    #expect(true)
-                }
-                catch {
-                    #expect(Bool(false))
-                }
+                await expectDecodeError(
+                    .invalidContentLength,
+                    response: response,
+                    body: body
+                )
             }
         }
         .build()
@@ -324,6 +350,26 @@ struct FeatherSpecTests {
             headerFields: [
                 .contentType: "application/json; charset=utf-8",
                 .contentLength: "nope",
+            ]
+        )
+        try await executor.execute(spec)
+    }
+
+    /// Verifies custom headers are passed through the mock executor.
+    @Test
+    func testExecutorCustomHeaders() async throws {
+        let spec = SpecBuilder {
+            Expect(.contentType) {
+                #expect($0 == "text/plain")
+            }
+        }
+        .build()
+
+        let executor = MockExecutor(
+            todo: todo,
+            headerFields: [
+                .contentType: "text/plain",
+                .contentLength: "18",
             ]
         )
         try await executor.execute(spec)

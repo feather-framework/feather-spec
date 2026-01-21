@@ -8,9 +8,13 @@ import HTTPTypes
 import OpenAPIRuntime
 
 /// A protocol defining the interface for running HTTP request specifications.
+///
+/// Executors turn a `Spec` into a concrete HTTP request and return a response.
 public protocol SpecExecutor {
 
     /// Executes an HTTP request specification asynchronously.
+    ///
+    /// Implementations should return the raw response and body for expectation evaluation.
     ///
     /// - Parameters:
     ///   - req: The HTTP request to execute.
@@ -29,9 +33,13 @@ public protocol SpecExecutor {
 }
 
 /// Convenience `SpecExecutor` helpers.
+///
+/// These overloads wrap different spec inputs into the same execution path.
 extension SpecExecutor {
 
     /// Executes a given `Spec` asynchronously.
+    ///
+    /// This is a thin wrapper around `Spec.run(using:)`.
     /// - Parameter spec: The `Spec` instance to be executed.
     /// - Throws: error
     public func execute(
@@ -41,6 +49,8 @@ extension SpecExecutor {
     }
 
     /// Executes a given `SpecBuilder` asynchronously.
+    ///
+    /// The builder is evaluated once to produce a `Spec`.
     /// - Parameter builder: The `SpecBuilder` instance to be executed.
     /// - Throws: error
     public func execute(
@@ -51,6 +61,8 @@ extension SpecExecutor {
     }
 
     /// Executes a given `SpecBuilderParameter` asynchronously using a builder block.
+    ///
+    /// This enables DSL usage without explicitly creating a builder.
     /// - Parameter parameterBuilderBlock: A closure that returns a `SpecBuilderParameter`.
     /// - Throws: error
     public func execute(

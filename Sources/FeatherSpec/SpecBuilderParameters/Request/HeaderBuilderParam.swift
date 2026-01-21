@@ -9,6 +9,8 @@ import HTTPTypes
 /// A struct that represents a header for an API request.
 ///
 /// It conforms to the `SpecBuilderParameter` protocol and sets the header in the specification.
+///
+/// Repeated headers with the same name are appended in order.
 public struct Header: SpecBuilderParameter {
 
     /// The name of the HTTP header field.
@@ -18,6 +20,8 @@ public struct Header: SpecBuilderParameter {
     let value: String
 
     /// Initializes a new instance of `Header` with the provided name and value.
+    ///
+    /// This stores the header data for later application.
     /// - Parameters:
     ///   - name: The name of the HTTP header field.
     ///   - value: The value of the HTTP header field.
@@ -27,6 +31,8 @@ public struct Header: SpecBuilderParameter {
     }
 
     /// Sets the header of the specification with the provided name and value.
+    ///
+    /// This appends the header to the request's header fields.
     /// - Parameter spec: An inout parameter of type `Spec` that is modified to include the header.
     public func build(_ spec: inout Spec) {
         spec.setHeader(name, value)

@@ -9,9 +9,13 @@ import HTTPTypes
 import OpenAPIRuntime
 
 /// Test-only decoding helpers for `HTTPBody`.
+///
+/// These utilities are tailored to the mock response format.
 extension HTTPBody {
 
     /// Errors thrown when decoding an `HTTPBody`.
+    ///
+    /// These map missing or invalid content-length values.
     enum DecodeError: Error {
         /// The response is missing a `Content-Length` header.
         case missingContentLength
@@ -20,6 +24,8 @@ extension HTTPBody {
     }
 
     /// Decodes the body as JSON into the requested type.
+    ///
+    /// The response is used to determine the expected byte length.
     func decode<T>(
         _ type: T.Type,
         with response: HTTPResponse
