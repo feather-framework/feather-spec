@@ -1,11 +1,21 @@
+//
+//  MethodBuilderParam.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
 import HTTPTypes
 
 /// A struct representing an HTTP request method to be used in building a specification.
+///
+/// This parameter sets `HTTPRequest.method` on the target `Spec`.
 public struct Method: SpecBuilderParameter {
     // The HTTP request method (e.g., GET, POST, etc.)
     let method: HTTPRequest.Method
 
     /// Initializes a `Method` instance with the specified HTTP request method.
+    ///
+    /// This captures the method for application during `build(_:)`.
     ///
     /// - Parameter method: The HTTP request method to use.
     public init(_ method: HTTPRequest.Method) {
@@ -13,6 +23,8 @@ public struct Method: SpecBuilderParameter {
     }
 
     /// Builds the specification by setting the HTTP request method.
+    ///
+    /// This overwrites any previously set method on the spec.
     ///
     /// - Parameter spec: The specification to be modified.
     public func build(_ spec: inout Spec) {

@@ -1,13 +1,66 @@
-import XCTest
+//
+//  FeatherSpecTests.swift
+//  feather-spec
+//
+//  Created by Binary Birds on 2026. 01. 20..
+
+import HTTPTypes
+import OpenAPIRuntime
+import Testing
+
 @testable import FeatherSpec
 
-final class FeatherSpecTests: XCTestCase {
+/// Test suite for `FeatherSpec`.
+///
+/// Covers the fluent API, DSL builder, and executor integrations.
+@Suite
+struct FeatherSpecTests {
 
+    /// Shared request path used across tests.
+    ///
+    /// This keeps expectations consistent across cases.
     let path = "todos"
+    /// Shared todo model used across tests.
+    ///
+    /// The title is asserted in decoding expectations.
     let todo = Todo(title: "task01")
+    /// Shared JSON request body used across tests.
+    ///
+    /// This is derived from the shared todo.
     let body = Todo(title: "task01").httpBody
+    /// Shared content type header value used across tests.
+    ///
+    /// Used to validate header expectations.
     let contentType = "application/json"
 
+    /// Asserts that decoding fails with the expected `HTTPBody.DecodeError`.
+    ///
+    /// This keeps decode error tests consistent and readable.
+    func expectDecodeError(
+        _ expected: HTTPBody.DecodeError,
+        response: HTTPResponse,
+        body: HTTPBody
+    ) async {
+        do {
+            _ = try await body.decode(Todo.self, with: response)
+            #expect(Bool(false))
+        }
+        catch let error as HTTPBody.DecodeError {
+            switch (error, expected) {
+            case (.missingContentLength, .missingContentLength),
+                (.invalidContentLength, .invalidContentLength):
+                #expect(Bool(true))
+            default:
+                #expect(Bool(false))
+            }
+        }
+        catch {
+            #expect(Bool(false))
+        }
+    }
+
+    /// Verifies the mutating `Spec` API.
+    @Test
     func testMutatingFuncSpec() async throws {
         var spec = Spec()
         spec.setMethod(.post)
@@ -16,22 +69,24 @@ final class FeatherSpecTests: XCTestCase {
         spec.setHeader(.contentType, contentType)
         spec.addExpectation(.ok)
         spec.addExpectation(.contentType) {
-            XCTAssertEqual($0, "application/json; charset=utf-8")
+            #expect($0 == "application/json; charset=utf-8")
         }
         spec.addExpectation { response, body in
             let todo = try await body.decode(Todo.self, with: response)
-            XCTAssertEqual(todo.title, self.todo.title)
+            #expect(todo.title == self.todo.title)
         }
 
-        XCTAssertEqual(spec.request.method, .post)
-        XCTAssertEqual(spec.request.path, path)
-        XCTAssertEqual(spec.body, body)
-        XCTAssertEqual(spec.request.headerFields, [.contentType: contentType])
+        #expect(spec.request.method == .post)
+        #expect(spec.request.path == path)
+        #expect(spec.body == body)
+        #expect(spec.request.headerFields == [.contentType: contentType])
 
-        let runner = PostTodoRunner(todo: todo)
+        let runner = MockRunner(todo: todo)
         try await runner.run(spec)
     }
 
+    /// Verifies the fluent `Spec` API.
+    @Test
     func testBuilderFuncSpec() async throws {
         let spec = Spec()
             .method(.post)
@@ -40,22 +95,24 @@ final class FeatherSpecTests: XCTestCase {
             .body(body)
             .expect(.ok)
             .expect(.contentType) {
-                XCTAssertEqual($0, "application/json; charset=utf-8")
+                #expect($0 == "application/json; charset=utf-8")
             }
             .expect { response, body in
                 let todo = try await body.decode(Todo.self, with: response)
-                XCTAssertEqual(todo.title, self.todo.title)
+                #expect(todo.title == self.todo.title)
             }
 
-        XCTAssertEqual(spec.request.method, .post)
-        XCTAssertEqual(spec.request.path, path)
-        XCTAssertEqual(spec.body, body)
-        XCTAssertEqual(spec.request.headerFields, [.contentType: contentType])
+        #expect(spec.request.method == .post)
+        #expect(spec.request.path == path)
+        #expect(spec.body == body)
+        #expect(spec.request.headerFields == [.contentType: contentType])
 
-        let runner = PostTodoRunner(todo: todo)
+        let runner = MockRunner(todo: todo)
         try await runner.run(spec)
     }
 
+    /// Verifies the DSL builder API.
+    @Test
     func testDslSpec() async throws {
         let spec = SpecBuilder {
             Method(.post)
@@ -64,34 +121,38 @@ final class FeatherSpecTests: XCTestCase {
             Body(body)
             Expect(.ok)
             Expect(.contentType) {
-                XCTAssertEqual($0, "application/json; charset=utf-8")
+                #expect($0 == "application/json; charset=utf-8")
             }
             Expect { response, body in
                 let todo = try await body.decode(Todo.self, with: response)
-                XCTAssertEqual(todo.title, self.todo.title)
+                #expect(todo.title == self.todo.title)
             }
             Custom { response, body in
                 let todo = try await body.decode(Todo.self, with: response)
-                XCTAssertEqual(todo.title, self.todo.title)
+                #expect(todo.title == self.todo.title)
             }
         }
         .build()
 
-        XCTAssertEqual(spec.request.method, .post)
-        XCTAssertEqual(spec.request.path, path)
-        XCTAssertEqual(spec.body, body)
-        XCTAssertEqual(spec.request.headerFields, [.contentType: contentType])
+        #expect(spec.request.method == .post)
+        #expect(spec.request.path == path)
+        #expect(spec.body == body)
+        #expect(spec.request.headerFields == [.contentType: contentType])
 
-        let runner = PostTodoRunner(todo: todo)
+        let runner = MockRunner(todo: todo)
         try await runner.run(spec)
     }
 
+    /// Verifies building an empty spec.
+    @Test
     func testEmptySpec() async throws {
         let _ = SpecBuilder {}.build()
     }
 
+    /// Verifies custom error propagation from expectations.
+    @Test
     func testExpectationError() async throws {
-        let runner = PostTodoRunner(todo: todo)
+        let runner = MockRunner(todo: todo)
         do {
             try await runner.run {
                 Custom { response, body in
@@ -100,10 +161,12 @@ final class FeatherSpecTests: XCTestCase {
             }
         }
         catch CustomError.failure(let value) {
-            XCTAssertEqual(value, -1)
+            #expect(value == -1)
         }
     }
 
+    /// Verifies `SpecBuilder` control-flow support.
+    @Test
     func testSpecBuilderFunctions() {
         let _ = SpecBuilder {
             let value = Bool.random()
@@ -133,34 +196,38 @@ final class FeatherSpecTests: XCTestCase {
         .build()
     }
 
+    /// Verifies convenience HTTP method helpers.
+    @Test
     func testBuilderSpecHelpers() async throws {
         let specGet = Spec().get(path)
-        XCTAssertEqual(specGet.request.method, .get)
-        XCTAssertEqual(specGet.request.path, path)
+        #expect(specGet.request.method == .get)
+        #expect(specGet.request.path == path)
 
         let specPost = Spec().post(path)
-        XCTAssertEqual(specPost.request.method, .post)
-        XCTAssertEqual(specPost.request.path, path)
+        #expect(specPost.request.method == .post)
+        #expect(specPost.request.path == path)
 
         let specPut = Spec().put(path)
-        XCTAssertEqual(specPut.request.method, .put)
-        XCTAssertEqual(specPut.request.path, path)
+        #expect(specPut.request.method == .put)
+        #expect(specPut.request.path == path)
 
         let specPatch = Spec().patch(path)
-        XCTAssertEqual(specPatch.request.method, .patch)
-        XCTAssertEqual(specPatch.request.path, path)
+        #expect(specPatch.request.method == .patch)
+        #expect(specPatch.request.path == path)
 
         let specHead = Spec().head(path)
-        XCTAssertEqual(specHead.request.method, .head)
-        XCTAssertEqual(specHead.request.path, path)
+        #expect(specHead.request.method == .head)
+        #expect(specHead.request.path == path)
 
         let specDelete = Spec().delete(path)
-        XCTAssertEqual(specDelete.request.method, .delete)
-        XCTAssertEqual(specDelete.request.path, path)
+        #expect(specDelete.request.method == .delete)
+        #expect(specDelete.request.path == path)
     }
 
+    /// Verifies status expectation errors.
+    @Test
     func testStatusError() async throws {
-        let runner = PostTodoRunner(todo: todo)
+        let runner = MockRunner(todo: todo)
         do {
             try await runner.run(
                 SpecBuilder {
@@ -169,58 +236,142 @@ final class FeatherSpecTests: XCTestCase {
             )
         }
         catch Spec.Failure.status(let value) {
-            XCTAssertEqual(value, .ok)
+            #expect(value == .ok)
         }
     }
 
+    /// Verifies header expectation errors.
+    @Test
     func testHeaderError() async throws {
-        let runner = PostTodoRunner(todo: todo)
+        let runner = MockRunner(todo: todo)
         do {
             try await runner.run(
                 SpecBuilder {
                     Expect(.authorization) {
-                        XCTAssertEqual($0, "application/json; charset=utf-8")
+                        #expect($0 == "application/json; charset=utf-8")
                     }
                 }
             )
         }
         catch Spec.Failure.header(let value) {
-            XCTAssertEqual(value, .authorization)
+            #expect(value == .authorization)
         }
     }
 
+    /// Verifies executing a built spec via executor.
+    @Test
     func testExecutorSpec() async throws {
         let spec = SpecBuilder {
-            Expect(.ok)
+            Expect(.created)
             Expect { response, body in
-                XCTAssertEqual(response.status.code, 200)
+                #expect(response.status.code == 201)
             }
         }
         .build()
 
-        let executor = PostTodoExecutor(todo: todo)
+        let executor = MockExecutor(
+            todo: todo,
+            status: .created
+        )
         try await executor.execute(spec)
     }
 
+    /// Verifies executing a spec builder via executor.
+    @Test
     func testExecutorSpecBuilder() async throws {
         let specBuilder = SpecBuilder {
-            Expect(.ok)
+            Expect(.created)
             Expect { response, body in
-                XCTAssertEqual(response.status.code, 200)
+                #expect(response.status.code == 201)
             }
         }
 
-        let executor = PostTodoExecutor(todo: todo)
+        let executor = MockExecutor(
+            todo: todo,
+            status: .created
+        )
         try await executor.execute(specBuilder)
     }
 
+    /// Verifies executing a builder-parameter block via executor.
+    @Test
     func testExecutorSpecBuilderParameter() async throws {
-        let executor = PostTodoExecutor(todo: todo)
+        let executor = MockExecutor(
+            todo: todo,
+            status: .created
+        )
         try await executor.execute {
-            Expect(.ok)
+            Expect(.created)
             Expect { response, body in
-                XCTAssertEqual(response.status.code, 200)
+                #expect(response.status.code == 201)
             }
         }
+    }
+
+    /// Verifies decode error when `Content-Length` is missing.
+    @Test
+    func testDecodeMissingContentLength() async throws {
+        let spec = SpecBuilder {
+            Expect { response, body in
+                await expectDecodeError(
+                    .missingContentLength,
+                    response: response,
+                    body: body
+                )
+            }
+        }
+        .build()
+
+        let executor = MockExecutor(
+            todo: todo,
+            headerFields: [
+                .contentType: "application/json; charset=utf-8"
+            ]
+        )
+        try await executor.execute(spec)
+    }
+
+    /// Verifies decode error when `Content-Length` is invalid.
+    @Test
+    func testDecodeInvalidContentLength() async throws {
+        let spec = SpecBuilder {
+            Expect { response, body in
+                await expectDecodeError(
+                    .invalidContentLength,
+                    response: response,
+                    body: body
+                )
+            }
+        }
+        .build()
+
+        let executor = MockExecutor(
+            todo: todo,
+            headerFields: [
+                .contentType: "application/json; charset=utf-8",
+                .contentLength: "nope",
+            ]
+        )
+        try await executor.execute(spec)
+    }
+
+    /// Verifies custom headers are passed through the mock executor.
+    @Test
+    func testExecutorCustomHeaders() async throws {
+        let spec = SpecBuilder {
+            Expect(.contentType) {
+                #expect($0 == "text/plain")
+            }
+        }
+        .build()
+
+        let executor = MockExecutor(
+            todo: todo,
+            headerFields: [
+                .contentType: "text/plain",
+                .contentLength: "18",
+            ]
+        )
+        try await executor.execute(spec)
     }
 }
