@@ -29,7 +29,7 @@ Declarative HTTP specification testing for Swift, providing a shared API surface
 Use Swift Package Manager; add the dependency to your `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/feather-framework/feather-spec", exact: "1.0.0-beta.1"),
+.package(url: "https://github.com/feather-framework/feather-spec", exact: "1.0.0-beta.2"),
 ```
 
 Then add `FeatherSpec` to your target dependencies:
