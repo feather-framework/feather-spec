@@ -22,7 +22,7 @@ struct Custom: SpecBuilderParameter {
     ///
     /// The block is wrapped into an `Expectation`.
     init(
-        block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
+        block: @escaping @Sendable (HTTPResponse, HTTPBody) async throws -> Void
     ) {
         self.expectation = .init(block: block)
     }

@@ -10,12 +10,12 @@ import OpenAPIRuntime
 /// A structure representing an expectation to be used in building specifications.
 ///
 /// Expectations encapsulate async validation logic for responses.
-public struct Expectation {
+public struct Expectation: Sendable {
 
     /// A closure representing the expectation block.
     ///
     /// The block receives the response and body produced by the executor.
-    public let block: ((HTTPResponse, HTTPBody) async throws -> Void)
+    public let block: (@Sendable (HTTPResponse, HTTPBody) async throws -> Void)
 
     /// Initializes an `Expectation` instance with the specified parameters.
     ///
@@ -23,7 +23,7 @@ public struct Expectation {
     ///
     /// - Parameter block: The closure representing the expectation block.
     public init(
-        block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
+        block: @escaping @Sendable (HTTPResponse, HTTPBody) async throws -> Void
     ) {
         self.block = block
     }
@@ -62,7 +62,7 @@ extension Expectation {
     /// - Returns: An `Expectation` instance for verifying the presence of a specific HTTP header.
     public static func header(
         name: HTTPField.Name,
-        block: ((String) async throws -> Void)? = nil
+        block: (@Sendable (String) async throws -> Void)? = nil
     ) -> Self {
         .init(
             block: { response, _ in

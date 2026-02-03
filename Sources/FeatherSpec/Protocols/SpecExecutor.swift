@@ -10,7 +10,7 @@ import OpenAPIRuntime
 /// A protocol defining the interface for running HTTP request specifications.
 ///
 /// Executors turn a `Spec` into a concrete HTTP request and return a response.
-public protocol SpecExecutor {
+public protocol SpecExecutor: Sendable {
 
     /// Executes an HTTP request specification asynchronously.
     ///

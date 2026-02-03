@@ -62,6 +62,7 @@ struct FeatherSpecTests {
     /// Verifies the mutating `Spec` API.
     @Test
     func testMutatingFuncSpec() async throws {
+        let expectedTitle = todo.title
         var spec = Spec()
         spec.setMethod(.post)
         spec.setPath(path)
@@ -73,7 +74,7 @@ struct FeatherSpecTests {
         }
         spec.addExpectation { response, body in
             let todo = try await body.decode(Todo.self, with: response)
-            #expect(todo.title == self.todo.title)
+            #expect(todo.title == expectedTitle)
         }
 
         #expect(spec.request.method == .post)
@@ -88,6 +89,7 @@ struct FeatherSpecTests {
     /// Verifies the fluent `Spec` API.
     @Test
     func testBuilderFuncSpec() async throws {
+        let expectedTitle = todo.title
         let spec = Spec()
             .method(.post)
             .path(path)
@@ -99,7 +101,7 @@ struct FeatherSpecTests {
             }
             .expect { response, body in
                 let todo = try await body.decode(Todo.self, with: response)
-                #expect(todo.title == self.todo.title)
+                #expect(todo.title == expectedTitle)
             }
 
         #expect(spec.request.method == .post)
@@ -114,6 +116,7 @@ struct FeatherSpecTests {
     /// Verifies the DSL builder API.
     @Test
     func testDslSpec() async throws {
+        let expectedTitle = todo.title
         let spec = SpecBuilder {
             Method(.post)
             Path(path)
@@ -125,11 +128,11 @@ struct FeatherSpecTests {
             }
             Expect { response, body in
                 let todo = try await body.decode(Todo.self, with: response)
-                #expect(todo.title == self.todo.title)
+                #expect(todo.title == expectedTitle)
             }
             Custom { response, body in
                 let todo = try await body.decode(Todo.self, with: response)
-                #expect(todo.title == self.todo.title)
+                #expect(todo.title == expectedTitle)
             }
         }
         .build()

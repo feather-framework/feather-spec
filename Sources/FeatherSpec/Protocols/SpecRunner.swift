@@ -15,9 +15,8 @@ public protocol SpecRunner {
     ///
     /// - Parameter block: A closure that takes a `SpecExecutor` and performs asynchronous operations.
     /// - Throws: error
-    func test(
-        block: @escaping (SpecExecutor) async throws -> Void
-    ) async throws
+    func test(block: @escaping @Sendable (SpecExecutor) async throws -> Void)
+        async throws
 }
 
 // NOTE: result type?

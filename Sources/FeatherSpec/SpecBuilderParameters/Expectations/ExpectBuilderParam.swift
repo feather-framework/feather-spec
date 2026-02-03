@@ -20,7 +20,7 @@ public struct Expect: SpecBuilderParameter {
     ///
     /// - Parameter block: A closure that takes an `HTTPResponse` and `HTTPBody` and performs an asynchronous operation.
     public init(
-        block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
+        block: @escaping @Sendable (HTTPResponse, HTTPBody) async throws -> Void
     ) {
         self.expectation = .init(block: block)
     }
@@ -60,7 +60,7 @@ extension Expect {
     ///   - block: An optional closure that takes a `String` and performs an asynchronous operation.
     public init(
         _ name: HTTPField.Name,
-        _ block: ((String) async throws -> Void)? = nil
+        _ block: (@Sendable (String) async throws -> Void)? = nil
     ) {
         self.expectation = .header(name: name, block: block)
     }
