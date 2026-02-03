@@ -2,7 +2,7 @@
 
 Declarative HTTP specification testing for Swift, providing a shared API surface for runners and executors.
 
-![Release: 1.0.0-beta.1](https://img.shields.io/badge/Release-1%2E0%2E0--beta%2E1-F05138)
+[![Release: 1.0.0-beta.2](https://img.shields.io/badge/Release-1.0.0--beta.2-F05138)]( https://github.com/feather-framework/feather-spec/releases/tag/1.0.0-beta.2)
 
 ## Features
 
@@ -18,11 +18,11 @@ Declarative HTTP specification testing for Swift, providing a shared API surface
 
 - Swift 6.1+
 - Platforms:
-    - macOS 15+
-    - iOS 18+
-    - tvOS 18+
-    - watchOS 11+
-    - visionOS 2+
+  - macOS 15+
+  - iOS 18+
+  - tvOS 18+
+  - watchOS 11+
+  - visionOS 2+
 
 ## Installation
 
@@ -40,9 +40,9 @@ Then add `FeatherSpec` to your target dependencies:
 
 ## Usage
 
-![DocC API documentation](https://img.shields.io/badge/DocC-API_documentation-F05138)
+[![DocC API documentation](https://img.shields.io/badge/DocC-API_documentation-F05138)](https://feather-framework.github.io/feather-spec/)
 
-API documentation is available at the following [link](https://feather-framework.github.io/feather-spec/). Refer to the mock objects in the Tests directory if you want to build a custom runner or executor implementation.
+API documentation is available at the following link. Refer to the mock objects in the Tests directory if you want to build a custom runner or executor implementation.
 
 > [!WARNING]
 > This repository is a work in progress, things can break until it reaches v1.0.0.
@@ -58,8 +58,8 @@ The following Swift server-side runtime integrations are available:
 
 - Build: `swift build`
 - Test:
-    - local: `make test`
-    - using Docker: `make docker-test`
+  - local: `make test`
+  - using Docker: `make docker-test`
 - Format: `make format`
 - Check: `make check`
 

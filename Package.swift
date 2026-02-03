@@ -34,14 +34,22 @@ let package = Package(
         .library(name: "FeatherSpec", targets: ["FeatherSpec"]),
     ],
     dependencies: [
+        // [docc-plugin-placeholder]
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0"),
     ],
     targets: [
-        .target(name: "FeatherSpec", dependencies: [
-            .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
-        ]),
-        .testTarget(name: "FeatherSpecTests", dependencies: [
-            .target(name: "FeatherSpec"),
-        ]),
+        .target(name: "FeatherSpec", 
+            dependencies: [
+                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"
+            )
+            ], 
+            swiftSettings: defaultSwiftSettings
+        ),
+        .testTarget(name: "FeatherSpecTests", 
+            dependencies: [
+                .target(name: "FeatherSpec"),
+            ], 
+            swiftSettings: defaultSwiftSettings
+        ),
     ]
 )
