@@ -2,7 +2,13 @@ SHELL=/bin/bash
 
 baseUrl = https://raw.githubusercontent.com/BinaryBirds/github-workflows/refs/heads/main/scripts
 
-check: symlinks language deps lint docc-warnings headers
+check: symlinks language deps lint docc-warnings headers package
+
+package:
+	curl -s $(baseUrl)/check-swift-package.sh | bash
+
+breakage:
+	curl -s $(baseUrl)/check-api-breakage.sh | bash
 
 symlinks:
 	curl -s $(baseUrl)/check-broken-symlinks.sh | bash
