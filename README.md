@@ -18,6 +18,7 @@ Declarative HTTP specification testing for Swift, providing a shared API surface
 
 - Swift 6.1+
 - Platforms:
+  - Linux
   - macOS 15+
   - iOS 18+
   - tvOS 18+

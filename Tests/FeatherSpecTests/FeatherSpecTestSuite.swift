@@ -1,5 +1,5 @@
 //
-//  FeatherSpecTests.swift
+//  FeatherSpecTestSuite.swift
 //  feather-spec
 //
 //  Created by Binary Birds on 2026. 01. 20..
@@ -14,7 +14,7 @@ import Testing
 ///
 /// Covers the fluent API, DSL builder, and executor integrations.
 @Suite
-struct FeatherSpecTests {
+struct FeatherSpecTestSuite {
 
     /// Shared request path used across tests.
     ///
