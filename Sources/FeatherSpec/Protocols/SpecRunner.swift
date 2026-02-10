@@ -7,7 +7,7 @@
 /// SpecRunner.
 ///
 /// Conforming types provide the execution environment for one or more specs.
-public protocol SpecRunner {
+public protocol SpecRunner: Sendable {
 
     /// Asynchronously tests a specification.
     ///
