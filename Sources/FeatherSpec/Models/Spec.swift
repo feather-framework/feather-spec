@@ -10,7 +10,7 @@ import OpenAPIRuntime
 /// A structure representing an HTTP request specification.
 ///
 /// This holds request data and expectations to be evaluated after execution.
-public struct Spec {
+public struct Spec: Sendable {
 
     /// The HTTP request.
     ///
@@ -75,7 +75,8 @@ public struct Spec {
     ///
     /// The expectation runs after the request completes.
     public mutating func addExpectation(
-        _ block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
+        _ block:
+            @escaping @Sendable (HTTPResponse, HTTPBody) async throws -> Void
     ) {
         expectations.append(.init(block: block))
     }
@@ -180,7 +181,8 @@ public struct Spec {
     ///
     /// Returns a new spec with the expectation appended.
     public func expect(
-        _ block: @escaping ((HTTPResponse, HTTPBody) async throws -> Void)
+        _ block:
+            @escaping @Sendable (HTTPResponse, HTTPBody) async throws -> Void
     ) -> Self {
         modify { $0.addExpectation(block) }
     }
@@ -222,7 +224,7 @@ extension Spec {
     /// An optional block can further validate the header value.
     public mutating func addExpectation(
         _ name: HTTPField.Name,
-        _ block: ((String) async throws -> Void)? = nil
+        _ block: (@Sendable (String) async throws -> Void)? = nil
     ) {
         expectations.append(
             .header(name: name, block: block)
@@ -245,7 +247,7 @@ extension Spec {
     /// Returns a new spec with the expectation appended.
     public func expect(
         _ name: HTTPField.Name,
-        _ block: ((String) async throws -> Void)? = nil
+        _ block: (@Sendable (String) async throws -> Void)? = nil
     ) -> Self {
         modify { $0.addExpectation(name, block) }
     }

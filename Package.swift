@@ -11,7 +11,7 @@ var defaultSwiftSettings: [SwiftSetting] =
     // https://forums.swift.org/t/experimental-support-for-lifetime-dependencies-in-swift-6-2-and-beyond/78638
     .enableExperimentalFeature("Lifetimes"),
     // https://github.com/swiftlang/swift/pull/65218
-    .enableExperimentalFeature("AvailabilityMacro=featherDatabase 1.0:macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0"),
+    .enableExperimentalFeature("AvailabilityMacro=featherSpec 1.0:macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0"),
 ]
 
 #if compiler(>=6.2)
@@ -34,14 +34,22 @@ let package = Package(
         .library(name: "FeatherSpec", targets: ["FeatherSpec"]),
     ],
     dependencies: [
+        // [docc-plugin-placeholder]
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0"),
     ],
     targets: [
-        .target(name: "FeatherSpec", dependencies: [
-            .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
-        ]),
-        .testTarget(name: "FeatherSpecTests", dependencies: [
-            .target(name: "FeatherSpec"),
-        ]),
+        .target(name: "FeatherSpec", 
+            dependencies: [
+                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"
+            )
+            ], 
+            swiftSettings: defaultSwiftSettings
+        ),
+        .testTarget(name: "FeatherSpecTests", 
+            dependencies: [
+                .target(name: "FeatherSpec"),
+            ], 
+            swiftSettings: defaultSwiftSettings
+        ),
     ]
 )
